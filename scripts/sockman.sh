@@ -15,9 +15,9 @@ show_menu() {
     local socket_list=($(ls -d ~/.ssh/sockman/${session_name}/config.d/*/ | xargs -n1 basename))
   else
     session_name=""
-    exit 0
   fi
 
+    exit 0
   if [[ is_sockman_session == false ]]; then
     local session_list_args=($(for arg in "session_list[@]"; do echo "\"${arg}\" \"\" \"new-session -A -t ${arg}\""; done))
     $(tmux display-menu -T "#[align=centre fg=green]Sockman" -x R -y P \
