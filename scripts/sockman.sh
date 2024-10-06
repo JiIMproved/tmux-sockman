@@ -10,12 +10,12 @@ show_menu() {
   local session_list=($(ls -d ~/.ssh/sockman/*/ | xargs -n1 basename))
 
   local is_sockman_session=false
-  exit 0
   if [[ $session_list =~ "(^|[[:space:]])${session_name}($|[[:space:]])" ]]; then
     is_sockman_session=true
     local socket_list=($(ls -d ~/.ssh/sockman/${session_name}/config.d/*/ | xargs -n1 basename))
   else
     session_name=""
+    exit 0
   fi
 
   if [[ is_sockman_session == false ]]; then
