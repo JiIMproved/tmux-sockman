@@ -10,6 +10,7 @@ show_menu() {
   local session_list=($(ls -d ~/.ssh/sockman/*/ | xargs -n1 basename))
 
   local is_sockman_session=false
+  exit 0
   if [[ $session_list =~ "(^|[[:space:]])${session_name}($|[[:space:]])" ]]; then
     is_sockman_session=true
     local socket_list=($(ls -d ~/.ssh/sockman/${session_name}/config.d/*/ | xargs -n1 basename))
@@ -18,7 +19,6 @@ show_menu() {
   fi
 
   if [[ is_sockman_session == false ]]; then
-    exit 0
     local session_list_args=($(for arg in "session_list[@]"; do echo "\"${arg}\" \"\" \"new-session -A -t ${arg}\""; done))
     $(tmux display-menu -T "#[align=centre fg=green]Sockman" -x R -y P \
         $session_list_args \
