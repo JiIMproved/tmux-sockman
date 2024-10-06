@@ -15,7 +15,6 @@ show_menu() {
     local socket_list=($(ls -d ~/.ssh/sockman/${session_name}/config.d/*/ | xargs -n1 basename))
   else
     session_name=""
-    exit 1
   fi
 
   $(tmux display-menu -T "#[align=centre fg=green]Sockman" -x R -y P \
