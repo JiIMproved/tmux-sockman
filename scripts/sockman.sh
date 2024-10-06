@@ -13,15 +13,23 @@ show_menu() {
   if [[ $session_list =~ "(^|[[:space:]])${session_name}($|[[:space:]])" ]]; then
     is_sockman_session=true
     local socket_list=($(ls -d ~/.ssh/sockman/${session_name}/config.d/*/ | xargs -n1 basename))
-    exit 1
   else
     session_name=""
+    exit 1
   fi
 
-  if [[ is_sockman_session == false ]]; then
-    local session_list_args=($(for arg in "session_list[@]"; do echo "\"${arg}\" \"\" \"new-session -A -t ${arg}\""; done))
     $(tmux display-menu -T "#[align=centre fg=green]Sockman" -x R -y P \
-        $session_list_args \
+        # $session_list_args \
+        "" \
+        "New session"     n "run -b 'source \"$CURRENT_DIR/sockman.sh\" && new_session'" \
+        "" \
+        "Close menu"       q "" \
+    )
+
+  if [[ is_sockman_session == false ]]; then
+    # local session_list_args=($(for arg in "session_list[@]"; do echo "\"${arg}\" \"\" \"new-session -A -t ${arg}\""; done))
+    $(tmux display-menu -T "#[align=centre fg=green]Sockman" -x R -y P \
+        # $session_list_args \
         "" \
         "New session"     n "run -b 'source \"$CURRENT_DIR/sockman.sh\" && new_session'" \
         "" \
