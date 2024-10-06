@@ -18,6 +18,7 @@ show_menu() {
   fi
 
   if [[ is_sockman_session == false ]]; then
+    exit 0
     local session_list_args=($(for arg in "session_list[@]"; do echo "\"${arg}\" \"\" \"new-session -A -t ${arg}\""; done))
     $(tmux display-menu -T "#[align=centre fg=green]Sockman" -x R -y P \
         $session_list_args \
