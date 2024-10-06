@@ -18,23 +18,21 @@ show_menu() {
     exit 1
   fi
 
-    $(tmux display-menu -T "#[align=centre fg=green]Sockman" -x R -y P \
-        # $session_list_args \
-        "" \
-        "New session"     n "run -b 'source \"$CURRENT_DIR/sockman.sh\" && new_session'" \
-        "" \
-        "Close menu"       q "" \
-    )
+  $(tmux display-menu -T "#[align=centre fg=green]Sockman" -x R -y P \
+      "New session"     n "run -b 'source \"$CURRENT_DIR/sockman.sh\" && new_session'" \
+      "" \
+      "Close menu"       q "" \
+  )
 
-  if [[ is_sockman_session == false ]]; then
-    # local session_list_args=($(for arg in "session_list[@]"; do echo "\"${arg}\" \"\" \"new-session -A -t ${arg}\""; done))
-    $(tmux display-menu -T "#[align=centre fg=green]Sockman" -x R -y P \
-        # $session_list_args \
-        "" \
-        "New session"     n "run -b 'source \"$CURRENT_DIR/sockman.sh\" && new_session'" \
-        "" \
-        "Close menu"       q "" \
-    )
+  # if [[ is_sockman_session == false ]]; then
+  #   # local session_list_args=($(for arg in "session_list[@]"; do echo "\"${arg}\" \"\" \"new-session -A -t ${arg}\""; done))
+  #   $(tmux display-menu -T "#[align=centre fg=green]Sockman" -x R -y P \
+  #       # $session_list_args \
+  #       "" \
+  #       "New session"     n "run -b 'source \"$CURRENT_DIR/sockman.sh\" && new_session'" \
+  #       "" \
+  #       "Close menu"       q "" \
+  #   )
   # elif [[ socket_name -ne "" ]]; then
   #   local socket_path="~/.ssh/sockman/${session_name}/${socket_name}/socket"
   #   local is_socket_open=false
@@ -71,5 +69,5 @@ show_menu() {
   #       "" \
   #       "Close menu"       q "" \
   #   )
-  fi
+  # fi
 }
