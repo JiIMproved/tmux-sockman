@@ -17,8 +17,7 @@ show_menu() {
     session_name=""
   fi
 
-  if [[ is_sockman_session == false ]]; then
-    exit 0
+  if [[ $is_sockman_session == false ]]; then
     local session_list_args=($(for arg in "session_list[@]"; do echo "\"${arg}\" \"\" \"new-session -A -t ${arg}\""; done))
     $(tmux display-menu -T "#[align=centre fg=green]Sockman" -x R -y P \
         $session_list_args \
@@ -26,7 +25,7 @@ show_menu() {
         "" \
         "Close menu"       q "" \
     )
-  elif [[ socket_name -ne "" ]]; then
+  elif [[ $socket_name -ne "" ]]; then
     local socket_path="~/.ssh/sockman/${session_name}/${socket_name}/socket"
     local is_socket_open=false
     if [[ -S "$socket_path" ]]; then
