@@ -16,10 +16,19 @@ fi
 
 show_menu() {
   local socket_name=$1
-  current_pane_id="${TMUX_PANE}"
+  local current_pane_id="${TMUX_PANE}"
+  echo $CURRENT_DIR
+  echo $PATH
+  echo $SESSION_NAME
+  echo $SESSION_LIST
+  echo $IS_SOCKMAN_SESSION
+  echo $SOCKET_LIST
+  echo $socket_name
+  echo $current_pane_id
 
   if [[ $IS_SOCKMAN_SESSION == false ]]; then
     winid="$(tmux new-window -P bash -c 'source '"${CURRENT_DIR}"'/sockman.sh && list_sessions')"
+    echo $winid
   elif [[ $socket_name -ne "" ]]; then
     local socket_path="~/.ssh/sockman/${session_name}/${socket_name}/socket"
     local is_socket_open=false
