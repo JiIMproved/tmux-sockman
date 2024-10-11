@@ -16,7 +16,7 @@ fi
 
 show_menu() {
   local socket_name=$1
-  local current_pane_id="${TMUX_PANE}"
+  local current_pane_id=$(tmux display-message -p '#{pane_id}')
   echo $CURRENT_DIR
   echo $PATH
   echo $SESSION_NAME
