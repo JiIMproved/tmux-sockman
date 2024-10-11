@@ -28,7 +28,7 @@ show_menu() {
 
   if [[ $IS_SOCKMAN_SESSION == false ]]; then
     winid="$(tmux new-window -P bash -c 'source '"${CURRENT_DIR}"'/sockman.sh && list_sessions')"
-    echo $winid
+    # echo $winid
   elif [[ $socket_name -ne "" ]]; then
     local socket_path="~/.ssh/sockman/${session_name}/${socket_name}/socket"
     local is_socket_open=false
