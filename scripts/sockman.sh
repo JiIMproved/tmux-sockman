@@ -40,7 +40,7 @@ show_menu() {
   else
     winid="$(tmux new-window -P bash -c 'source '"${CURRENT_DIR}"'/sockman.sh && list_sockets')"
   fi
-  tmux join-pane -hb -l 30 -t "$current_pane_id" -s "$winid"
+  tmux join-pane -hb -l 40 -t "$current_pane_id" -s "$winid"
 }
 
 function list_sessions() {
