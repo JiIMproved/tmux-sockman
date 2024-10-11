@@ -17,14 +17,14 @@ fi
 show_menu() {
   local socket_name=$1
   local current_pane_id=$(tmux display-message -p '#{pane_id}')
-  echo $CURRENT_DIR
-  echo $PATH
-  echo $SESSION_NAME
-  echo $SESSION_LIST
-  echo $IS_SOCKMAN_SESSION
-  echo $SOCKET_LIST
-  echo $socket_name
-  echo $current_pane_id
+  # echo $CURRENT_DIR
+  # echo $PATH
+  # echo $SESSION_NAME
+  # echo $SESSION_LIST
+  # echo $IS_SOCKMAN_SESSION
+  # echo $SOCKET_LIST
+  # echo $socket_name
+  # echo $current_pane_id
 
   if [[ $IS_SOCKMAN_SESSION == false ]]; then
     winid="$(tmux new-window -P bash -c 'source '"${CURRENT_DIR}"'/sockman.sh && list_sessions')"
@@ -40,7 +40,7 @@ show_menu() {
   else
     winid="$(tmux new-window -P bash -c 'source '"${CURRENT_DIR}"'/sockman.sh && list_sockets')"
   fi
-  # tmux join-pane -hb -l 40 -t "$current_pane_id" -s "$winid"
+  tmux join-pane -hb -l 40 -t "$current_pane_id" -s "$winid"
 }
 
 function list_sessions() {
