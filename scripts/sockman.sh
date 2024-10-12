@@ -58,6 +58,9 @@ function list_sessions() {
     echo bye
     sleep 5
   else
-    tmux new-window -n "${option}" -P bash -c 'source '"${CURRENT_DIR}"'/sockman.sh && show_menu'
+    tmux new-window -n "${option}"
+    local current_pane_id=$(tmux display-message -p '#{pane_id}')
+    local winid="$(tmux new-window -P bash -c 'source '"${CURRENT_DIR}"'/sockman.sh && show_menu')"
+    tmux join-pane -hb -l 40 -t "$current_pane_id" -s "$winid"
   fi
 }
