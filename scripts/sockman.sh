@@ -58,7 +58,6 @@ function list_sessions() {
     echo bye
     sleep 5
   else
-    echo $option
-    sleep 5
+    tmux new-window -n "${option}" -P bash -c 'source '"${CURRENT_DIR}"'/sockman.sh && show_menu'
   fi
 }
