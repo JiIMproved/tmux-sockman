@@ -89,7 +89,7 @@ function open_list_socket_options_pane() {
   fi
 
   local pane_name="$(socket_options_pane_title ${socket_name})"
-  local pane_found="$(tmux select-pane -t \"${pane_name}\" && echo true)"
+  local pane_found="$(tmux select-pane -t "${pane_name}" && echo true)"
 
   if [[ -z "${pane_found}" ]]; then
     local winid="$(tmux new-window -P bash -c 'source '"${CURRENT_DIR}"'/sockman.sh && list_socket_options '"${socket_name}")"
@@ -125,7 +125,7 @@ function list_socket_options() {
   fi
 
   local is_socket_open=false
-  if [[ -n "$(socket_path \"${socket_name}\")" ]]; then
+  if [[ -n "$(socket_path "${socket_name}")" ]]; then
     is_socket_open=true
   fi
 
@@ -144,21 +144,21 @@ function list_socket_options() {
   close_menu_opt="Close Menu"
 
   option="$(gum choose \
-    \"$open_socket_opt\" \
-    \"$add_jump_opt\" \
-    \"$close_socket_opt\" \
-    \"$open_logs_opt\" \
-    \"$search_logs_opt\" \
-    \"$open_files_opt\" \
-    \"$view_info_opt\" \
-    \"$edit_info_opt\" \
-    \"$rename_opt\" \
-    \"$close_menu_opt\")"
+    "$open_socket_opt" \
+    "$add_jump_opt" \
+    "$close_socket_opt" \
+    "$open_logs_opt" \
+    "$search_logs_opt" \
+    "$open_files_opt" \
+    "$view_info_opt" \
+    "$edit_info_opt" \
+    "$rename_opt" \
+    "$close_menu_opt")"
 }
 
 function open_list_sockets_pane() {
   local pane_name="$(session_options_pane_title)"
-  local pane_found="$(tmux select-pane -t \"${pane_name}\" && echo true)"
+  local pane_found="$(tmux select-pane -t "${pane_name}" && echo true)"
 
   if [[ -z "${pane_found}" ]]; then
     local winid="$(tmux new-window -P bash -c 'source '"${CURRENT_DIR}"'/sockman.sh && list_sockets')"
@@ -182,7 +182,7 @@ function open_list_sessions_pane() {
   local current_pane_id=$(tmux display-message -p '#{pane_id}')
 
   local pane_name="${LIST_SESSION_PANE_TITLE}"
-  local pane_found="$(tmux select-pane -t \"${pane_name}\" && echo true)"
+  local pane_found="$(tmux select-pane -t "${pane_name}" && echo true)"
 
   if [[ -z "${pane_found}" ]]; then
     local winid="$(tmux new-window -P bash -c 'source '"${CURRENT_DIR}"'/sockman.sh && list_sessions')"
