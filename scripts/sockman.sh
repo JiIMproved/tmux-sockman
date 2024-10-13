@@ -54,7 +54,6 @@ function socket_list() {
 
 show_menu() {
   local socket_name=$1
-  local current_pane_id=$(tmux display-message -p '#{pane_id}')
   local session_name="$(sockman_session)"
 
   if [[ -z "${session_name}" ]]; then
@@ -67,12 +66,17 @@ show_menu() {
 }
 
 function open_session_window() {
-  if [[ -z "$(sockman_session)" ]]; then
+  session_name=$1
+  if [[ -z "${session_name}" ]]; then
+    session_name="$(sockman_session)"
+  fi
+
+  if [[ -z "${session_name}" ]]; then
     read -p "No session name found. Failed to create or select session window. Press enter to continue."
     return 1
   fi
 
-  tmux new-window -Sn "${SESSION_NAME}"
+  tmux new-window -Sn "${session_name}"
   tmux set -w allow-rename off
   echo "$(tmux display-message -p '#{pane_id}')"
 }
@@ -153,12 +157,6 @@ function list_socket_options() {
 }
 
 function open_list_sockets_pane() {
-  local socket_name=$1
-  if [[ -z "${socket_name}" ]]; then
-    read -p "No socket selected. Failed to create or select pane for socket options. Press enter to continue."
-    return 1
-  fi
-
   local pane_name="$(session_options_pane_title)"
   local pane_found="$(tmux select-pane -t \"${pane_name}\" && echo true)"
 
@@ -211,7 +209,7 @@ function list_sessions() {
     echo bye
     sleep 5
   else
-    export SESSION_NAME="${option}"
-    open_session_window
+    open_session_window "${option}"
+    open_list_sockets_pane
   fi
 }
