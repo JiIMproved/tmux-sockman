@@ -202,7 +202,7 @@ function list_sessions() {
   new_session_opt="New session"
   close_menu_opt="Close menu"
 
-  option="$(gum choose $SESSION_LIST "$new_session_opt" "$close_menu_opt")"
+  option="$(gum choose "$(session_list)" "$new_session_opt" "$close_menu_opt")"
 
   if [[ $option == $new_session_opt ]]; then
     echo hi
