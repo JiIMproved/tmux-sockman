@@ -35,11 +35,9 @@ function session_list() {
 }
 
 function sockman_session() {
-  session_name=$(tmux display-message -p '#S')
+  session_name=$(tmux display-message -p '#W')
   if [[ "$(session_list)" =~ "(^|[[:space:]])${session_name}($|[[:space:]])" ]]; then
     echo "${session_name}"
-  else
-    echo "FAIL"
   fi
 }
 
@@ -102,6 +100,7 @@ function open_list_socket_options_pane() {
 
     # rename current pane so it can be found next time
     tmux select-pane -T "${pane_name}"
+    tmux set -w allow-rename off
   fi
 }
 
@@ -171,6 +170,7 @@ function open_list_sockets_pane() {
 
     # rename current pane so it can be found next time
     tmux select-pane -T "${pane_name}"
+    tmux set -w allow-rename off
   fi
 
   echo "${pane_name}"
@@ -193,6 +193,7 @@ function open_list_sessions_pane() {
 
     # rename current pane so it can be found next time
     tmux select-pane -T "${pane_name}"
+    tmux set -w allow-rename off
   else
     tmux join-pane -hb -l 40 -t "${pane_name}" -s "${current_pane_id}"
   fi
