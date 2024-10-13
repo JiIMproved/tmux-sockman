@@ -170,6 +170,8 @@ function open_list_sockets_pane() {
     # rename current pane so it can be found next time
     tmux select-pane -T "${pane_name}"
   fi
+
+  echo "${pane_name}"
 }
 
 function list_sockets() {
@@ -209,7 +211,9 @@ function list_sessions() {
     echo bye
     sleep 5
   else
-    open_session_window "${option}"
+    local current_pane_id=$(tmux display-message -p '#{pane_id}')
+    local pane_name="$(open_session_window \"${option}\")"
+    tmux join-pane -hb -l 40 -t "${pane_name}" -s "${current_pane_id}"
     open_list_sockets_pane
   fi
 }
