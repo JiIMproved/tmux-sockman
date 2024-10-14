@@ -215,7 +215,7 @@ function open_list_sessions_pane() {
 }
 
 function list_sessions() {
-  gum style --foreground 212 --bold --height 2 Sockman
+  gum style --foreground 212 --bold --height 2 "Sockman ${SESSION_NAME}"
 
   new_session_opt="New session"
   close_menu_opt="Close menu"
