@@ -86,8 +86,8 @@ function open_session_window() {
     return 1
   fi
 
-  tmux new-window -Sn "${session_name}"
-  tmux set -w allow-rename off
+  tmux new-window -Sn "${session_name}" 2> /dev/null
+  tmux set -w allow-rename off 2> /dev/null
   echo "$(tmux display-message -p '#{pane_id}')"
 }
 
@@ -218,9 +218,9 @@ function open_list_sessions_pane() {
   local pane_id=$(tmux list-panes -aF "#{pane_id}" -f "#{==:#{pane_title},"${pane_name}"}" 2> /dev/null)
 
   if [[ -z "${pane_id}" ]]; then
-    pane_id="$(tmux new-window -P bash -c 'source '"${CURRENT_DIR}"'/sockman.sh && list_sessions')"
+    pane_id="$(tmux new-window -P bash -c 'source '"${CURRENT_DIR}"'/sockman.sh && list_sessions' 2> /dev/null)"
   else
-    tmux respawn-pane -k -t "${pane_id}" bash -c 'source '"${CURRENT_DIR}"'/sockman.sh && list_sessions'
+    tmux respawn-pane -k -t "${pane_id}" bash -c 'source '"${CURRENT_DIR}"'/sockman.sh && list_sessions' 2> /dev/null
   fi
   tmux join-pane -hb -l 40 -t "${current_pane_id}" -s "${pane_id}" 2> /dev/null
 
