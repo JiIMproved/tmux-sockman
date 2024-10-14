@@ -187,6 +187,7 @@ function list_sockets() {
   local session_name=$1
 
   gum style --foreground 212 --bold --height 2 "${session_name} Sockman"
+  sleep 5
 
   local new_socket_opt="New Socket"
   local switch_session_opt="Switch Session"
@@ -194,6 +195,7 @@ function list_sockets() {
   local sockets="$(socket_list ${session_name})"
 
   option="$(gum choose ${sockets} "${new_socket_opt}" "${switch_session_opt}" "${close_menu_opt}")"
+  sleep 5
 }
 
 function open_list_sessions_pane() {
@@ -219,7 +221,6 @@ function list_sessions() {
 
   new_session_opt="New session"
   close_menu_opt="Close menu"
-  sleep 5
 
   option="$(gum choose "$(session_list)" "$new_session_opt" "$close_menu_opt")"
 
