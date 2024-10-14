@@ -166,7 +166,7 @@ function open_list_sockets_pane() {
   session_name=$1
   local pane_name="$(session_options_pane_title ${session_name})"
   local pane_id="$(tmux list-panes -aF \"#{pane_id}\" -f \"#{==:#{pane_title},${pane_name}}\")"
-  tmux display-message ${pane_id}
+  tmux display-message -d 0 ${pane_id}
 
   if [[ -n "${pane_id}" ]]; then
     tmux select-pane -t "${pane_id}"
