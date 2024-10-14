@@ -18,12 +18,16 @@ function sockman_session() {
 }
 
 function session_options_pane_title() {
-  local session_name="$(sockman_session)"
+  local session_name=$1
   if [[ -z "${session_name}" ]]; then
-    read -p "$(sockman_session). Press enter."
-    read -p "No session name found. Failed to generate session options pane title. Press enter to continue."
-    # return 1
+    session_name="$(sockman_session)"
   fi
+
+  if [[ -z "${session_name}" ]]; then
+    read -p "No session name found. Failed to generate session options pane title. Press enter to continue."
+    return 1
+  fi
+
   echo "sockman-session-${session_name}"
 }
 
@@ -162,7 +166,7 @@ function open_session_window() {
 
 function open_list_sockets_pane() {
   local session_name=$1
-  local pane_name="$(session_options_pane_title)"
+  local pane_name="$(session_options_pane_title ${session_name})"
   local pane_found="$(tmux select-pane -t "${pane_name}" && echo true)"
 
   if [[ -z "${pane_found}" ]]; then
