@@ -175,7 +175,7 @@ function open_list_sockets_pane() {
 
   if [[ -z "${pane_found}" ]]; then
     echo listing sockets...
-    local winid="$(tmux new-window -P bash -c 'source '"${CURRENT_DIR}"'/sockman.sh && list_sockets "${session_name}"')"
+    local winid="$(tmux new-window -P bash -c 'source '"${CURRENT_DIR}"'/sockman.sh && list_sockets '"${session_name}")"
     sleep 2
 
     echo opening session window
