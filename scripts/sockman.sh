@@ -199,23 +199,20 @@ function open_list_sessions_pane() {
   local current_pane_id=$(tmux display-message -p '#{pane_id}')
 
   local pane_name="${LIST_SESSION_PANE_TITLE}"
-  local pane_found="$(tmux select-pane -t "${pane_name}" && echo true)"
+  local pane_id="$(tmux respawn-pane -k -t "${pane_name}" bash -c 'source '"${CURRENT_DIR}"'/sockman.sh && list_sessions' && echo $(tmux display-message -p '#{pane_id}'))"
 
-  if [[ -z "${pane_found}" ]]; then
-    local winid="$(tmux new-window -P bash -c 'source '"${CURRENT_DIR}"'/sockman.sh && list_sessions')"
-
-    tmux join-pane -hb -l 40 -t "${current_pane_id}" -s "${winid}"
-
-    # rename current pane so it can be found next time
-    tmux select-pane -T "${pane_name}"
-    tmux set -w allow-rename off
-  else
-    tmux join-pane -hb -l 40 -t "${pane_name}" -s "${current_pane_id}"
+  if [[ -z "${pane_id}" ]]; then
+    pane_id="$(tmux new-window -P bash -c 'source '"${CURRENT_DIR}"'/sockman.sh && list_sessions')"
   fi
+  tmux join-pane -hb -l 40 -t "${current_pane_id}" -s "${pane_id}"
+
+  # rename current pane so it can be found next time
+  tmux select-pane -T "${pane_name}"
+  tmux set -w allow-rename off
 }
 
 function list_sessions() {
-  gum style --foreground 212 --bold --height 2 "Sockman ${SESSION_NAME}"
+  gum style --foreground 212 --bold --height 2 Sockman
 
   new_session_opt="New session"
   close_menu_opt="Close menu"
