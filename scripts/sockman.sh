@@ -80,8 +80,6 @@ function socket_list() {
 }
 
 function toggle_menu() {
-  local asd=$(tmux display-message -p '#W')
-  echo $asd > ~/stuff
   local pane_id=$(tmux list-panes -F "#{pane_title}" | grep "^sockman-.*" | xargs -I {} -n1 tmux list-panes -F "#{pane_id}" -f "#{==:#{pane_title},{}}" 2> /dev/null)
   if [[ -n "${pane_id}" ]]; then
     tmux kill-pane -t "${pane_id}" 2> /dev/null
@@ -89,6 +87,7 @@ function toggle_menu() {
   fi
 
   local session_name=$(sockman_session)
+  echo $session_name > ~/stuff
 
   if [[ -z "${session_name}" ]]; then
     open_list_sessions_pane
