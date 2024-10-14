@@ -264,6 +264,6 @@ function list_sessions() {
   elif [[ $option == $close_menu_opt ]]; then
     echo REPLACE
   else
-    open_list_sockets_pane "${option}"
+    $(open_list_sockets_pane "${option}")
   fi
 }
