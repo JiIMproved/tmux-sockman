@@ -132,13 +132,13 @@ function open_session_window() {
     session_name="$(sockman_session)"
   fi
 
+  sleep 5
   if [[ -z "${session_name}" ]]; then
     read -p "No session name found. Failed to create or select session window. Press enter to continue."
     return 1
   fi
 
   tmux new-window -e DISABLE_AUTO_TITLE=true -Sn "${session_name}" 2> /dev/null
-  sleep 5
   tmux select-pane -T "$(session_primary_pane_title ${session_name})" 2> /dev/null
   tmux setw -g allow-rename off 2> /dev/null
   echo "$(tmux display-message -p '#{pane_id}')"
