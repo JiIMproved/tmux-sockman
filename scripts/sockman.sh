@@ -47,7 +47,11 @@ function socket_options_pane_title() {
 }
 
 function socket_list() {
-  session_name="$(sockman_session)"
+  session_name=$1
+  if [[ -z "${session_name}" ]]; then
+    session_name="$(sockman_session)"
+  fi
+
   if [[ -z "${session_name}" ]]; then
     read -p "No session name found. Failed to generate socket list. Press enter to continue."
     return 1
@@ -194,7 +198,14 @@ function open_list_sockets_pane() {
 
 function list_sockets() {
   local session_name=$1
-  read -p "We did it. ${session_name}"
+
+  gum style --foreground 212 --bold --height 2 Sockman
+
+  local new_socket_opt="New Socket"
+  local switch_session_opt="Switch Session"
+  local close_menu_opt="Close menu"
+
+  option="$(gum choose "$(socket_list ${session_name})" "${new_socket_opt}" "${switch_session_opt}" "${close_menu_opt}")"
 }
 
 function open_list_sessions_pane() {
