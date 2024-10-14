@@ -197,7 +197,6 @@ function list_sockets() {
   local switch_session_opt="Switch Session"
   local close_menu_opt="Close menu"
   local sockets="$(socket_list ${session_name})"
-  echo $sockets
 
   option="$(gum choose ${sockets} "${new_socket_opt}" "${switch_session_opt}" "${close_menu_opt}")"
 }
@@ -209,6 +208,8 @@ function open_list_sessions_pane() {
   local pane_found="$(tmux select-pane -t "${pane_name}" && echo true)"
 
   if [[ -z "${pane_found}" ]]; then
+    echo pane not found
+    sleep 5
     local winid="$(tmux new-window -P bash -c 'source '"${CURRENT_DIR}"'/sockman.sh && list_sessions')"
 
     tmux join-pane -hb -l 40 -t "${current_pane_id}" -s "${winid}"
