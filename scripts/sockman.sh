@@ -5,6 +5,18 @@ export PATH="/usr/local/bin:$PATH:/usr/sbin"
 
 export LIST_SESSION_PANE_TITLE="sockman-list-session"
 
+function session_list() {
+  session_list_arr=( $(ls -d ~/.ssh/sockman/*/ | xargs -n1 basename) )
+  echo "${session_list_arr}"
+}
+
+function sockman_session() {
+  session_name=$(tmux display-message -p '#W')
+  if [[ "$(session_list)" =~ "(^|[[:space:]])${session_name}($|[[:space:]])" ]]; then
+    echo "${session_name}"
+  fi
+}
+
 function session_options_pane_title() {
   local session_name="$(sockman_session)"
   if [[ -z "${session_name}" ]]; then
@@ -30,18 +42,6 @@ function socket_options_pane_title() {
   echo "sockman-session-${session_name}"
 }
 
-function session_list() {
-  session_list_arr=( $(ls -d ~/.ssh/sockman/*/ | xargs -n1 basename) )
-  echo "${session_list_arr}"
-}
-
-function sockman_session() {
-  session_name=$(tmux display-message -p '#W')
-  if [[ "$(session_list)" =~ "(^|[[:space:]])${session_name}($|[[:space:]])" ]]; then
-    echo "${session_name}"
-  fi
-}
-
 function socket_list() {
   session_name="$(sockman_session)"
   if [[ -z "${session_name}" ]]; then
@@ -49,11 +49,11 @@ function socket_list() {
     return 1
   fi
 
-  socket_list=( $(ls -d ~/.ssh/sockman/${session_name}/config.d/*/ | xargs -n1 basename) )
-  echo "${socket_list}"
+  local sockets=( $(ls -d ~/.ssh/sockman/${session_name}/config.d/*/ | xargs -n1 basename) )
+  echo "${sockets}"
 }
 
-show_menu() {
+function show_menu() {
   local socket_name=$1
   local session_name="$(sockman_session)"
 
@@ -69,7 +69,7 @@ show_menu() {
 }
 
 function open_session_window() {
-  session_name=$1
+  local session_name=$1
   if [[ -z "${session_name}" ]]; then
     session_name="$(sockman_session)"
   fi
@@ -165,7 +165,8 @@ function open_list_sockets_pane() {
   local pane_found="$(tmux select-pane -t "${pane_name}" && echo true)"
 
   if [[ -z "${pane_found}" ]]; then
-    local winid="$(tmux new-window -P bash -c 'source '"${CURRENT_DIR}"'/sockman.sh && list_sockets')"
+    # local winid="$(tmux new-window -P bash -c 'source '"${CURRENT_DIR}"'/sockman.sh && list_sockets')"
+    local winid="$(tmux new-window -P)"
 
     local session_pane_id="$(open_session_window)"
 
