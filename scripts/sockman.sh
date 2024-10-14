@@ -199,7 +199,7 @@ function open_list_sockets_pane() {
 function list_sockets() {
   local session_name=$1
 
-  gum style --foreground 212 --bold --height 2 Sockman
+  gum style --foreground 212 --bold --height 2 "${session_name} Sockman"
 
   local new_socket_opt="New Socket"
   local switch_session_opt="Switch Session"
