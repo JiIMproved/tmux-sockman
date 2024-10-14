@@ -5,6 +5,7 @@ PATH="/usr/local/bin:$PATH:/usr/sbin"
 
 main() {
   $(tmux bind-key -T prefix s run-shell -b "source $CURRENT_DIR/scripts/sockman.sh && show_menu")
+  $(tmux bind-key -T prefix S display-message '#W'
 }
 
 main
