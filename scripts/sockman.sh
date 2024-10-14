@@ -206,8 +206,6 @@ function open_list_sockets_pane() {
   # rename current pane so it can be found next time
   tmux select-pane -T "${pane_name}" 2> /dev/null
   tmux set -w allow-rename off 2> /dev/null
-
-  echo "${pane_name}"
 }
 
 function list_sockets() {
@@ -264,6 +262,6 @@ function list_sessions() {
   elif [[ $option == $close_menu_opt ]]; then
     echo REPLACE
   else
-    $(open_list_sockets_pane "${option}")
+    open_list_sockets_pane "${option}"
   fi
 }
