@@ -212,6 +212,7 @@ function open_list_sessions_pane() {
   # rename current pane so it can be found next time
   tmux select-pane -T "${pane_name}"
   tmux set -w allow-rename off
+  sleep 5
 }
 
 function list_sessions() {
