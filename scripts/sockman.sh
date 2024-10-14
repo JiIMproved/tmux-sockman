@@ -65,7 +65,13 @@ function socket_list() {
   echo "${sockets[@]}"
 }
 
-function show_menu() {
+function toggle_menu() {
+  local pane_id=$(tmux list-panes -F "#{pane_title}" | grep "^sockman-.*" | xargs -I {} -n1 tmux list-panes -F "#{pane_id}" -f "#{==:#{pane_title},{}}" 2> /dev/null)
+  if [[ -n "${pane_id}" ]]; then
+    tmux kill-pane -t "${pane_id}"
+    return 0
+  fi
+
   local session_name=$(sockman_session)
 
   if [[ -z "${session_name}" ]]; then
@@ -191,7 +197,7 @@ function open_list_sockets_pane() {
 function list_sockets() {
   local session_name=$1
 
-  gum style --foreground 212 --bold --height 2 "${session_name} Sockman"
+  gum style --foreground 212 --bold --height 2 Sockman
 
   local new_socket_opt="New Socket"
   local switch_session_opt="Switch Session"
@@ -207,7 +213,7 @@ function list_sockets() {
   elif [[ $option == $close_menu_opt ]]; then
     echo REPLACE
   else
-    open_list_sockets_pane "${option}"
+    open_list_socket_options_pane "${option}"
   fi
 }
 
