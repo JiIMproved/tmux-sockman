@@ -16,9 +16,10 @@ function sockman_session() {
     session_name=$(tmux display-message -p '#W')
   fi
 
-  # if [[ "$(session_list)" =~ "(^|[[:space:]])${session_name}($|[[:space:]])" ]]; then
+  local session_list_arr=( $(ls -d ~/.ssh/sockman/*/ | xargs -n1 basename) )
+  if [[ "${session_list_arr[@]}" =~ "(^|[[:space:]])${session_name}($|[[:space:]])" ]]; then
     echo "${session_name}"
-  # fi
+  fi
 }
 
 function session_options_pane_title() {
