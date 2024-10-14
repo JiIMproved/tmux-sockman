@@ -17,8 +17,6 @@ function sockman_session() {
   fi
 }
 
-export SESSION_NAME="$(sockman_session)"
-
 function session_options_pane_title() {
   local session_name=$1
   if [[ -z "${session_name}" ]]; then
@@ -64,10 +62,12 @@ function socket_list() {
 }
 
 function show_menu() {
-  if [[ -z "${SESSION_NAME}" ]]; then
+  local session_name=$(sockman_session)
+  tmux display-message -d 0 ${session_name}
+  if [[ -z "${session_name}" ]]; then
     open_list_sessions_pane
   else
-    open_list_sockets_pane "${SESSION_NAME}"
+    open_list_sockets_pane "${session_name}"
   fi
 }
 
@@ -195,6 +195,16 @@ function list_sockets() {
   local sockets="$(socket_list ${session_name})"
 
   option="$(gum choose ${sockets} "${new_socket_opt}" "${switch_session_opt}" "${close_menu_opt}")"
+
+  if [[ $option == $new_socket_opt ]]; then
+    echo REPLACE
+  elif [[ $option == $switch_session_opt ]]; then
+    echo REPLACE
+  elif [[ $option == $close_menu_opt ]]; then
+    echo REPLACE
+  else
+    open_list_sockets_pane "${option}"
+  fi
 }
 
 function open_list_sessions_pane() {
@@ -228,9 +238,6 @@ function list_sessions() {
   elif [[ $option == $close_menu_opt ]]; then
     echo REPLACE
   else
-    # local current_pane_id=$(tmux display-message -p '#{pane_id}')
-    # local pane_id="$(open_session_window ${option})"
-    # tmux join-pane -hb -l 40 -t "${pane_id}" -s "${current_pane_id}"
     open_list_sockets_pane "${option}"
   fi
 }
