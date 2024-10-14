@@ -16,6 +16,7 @@ function sockman_session() {
     echo "${session_name}"
   fi
 }
+export SESSION_NAME="$(sockman_session)"
 
 function session_options_pane_title() {
   local session_name=$1
@@ -62,13 +63,10 @@ function socket_list() {
 }
 
 function show_menu() {
-  session_name="$(sockman_session)"
-  read -p "Press ${session_name}"
-
-  if [[ -z "${session_name}" ]]; then
+  if [[ -z "${SESSION_NAME}" ]]; then
     open_list_sessions_pane
   else
-    open_list_sockets_pane "${session_name}"
+    open_list_sockets_pane "${SESSION_NAME}"
   fi
 }
 
