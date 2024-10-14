@@ -196,8 +196,10 @@ function list_sockets() {
   local new_socket_opt="New Socket"
   local switch_session_opt="Switch Session"
   local close_menu_opt="Close menu"
+  local sockets="$(socket_list ${session_name})"
+  echo $sockets
 
-  option="$(gum choose "$(socket_list ${session_name})" "${new_socket_opt}" "${switch_session_opt}" "${close_menu_opt}")"
+  option="$(gum choose ${sockets} "${new_socket_opt}" "${switch_session_opt}" "${close_menu_opt}")"
 }
 
 function open_list_sessions_pane() {
