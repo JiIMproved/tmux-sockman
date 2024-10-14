@@ -203,7 +203,7 @@ function open_list_sessions_pane() {
 
   local pane_name="${LIST_SESSION_PANE_TITLE}"
   local pane_id="$(tmux list-panes -aF \"#{pane_id}\" -f \"#{==:#{pane_title},${pane_name}}\")"
-  tmux display-message ${pane_id}
+  tmux display-message -d 0 ${pane_id}
 
   if [[ -z "${pane_id}" ]]; then
     pane_id="$(tmux new-window -P bash -c 'source '"${CURRENT_DIR}"'/sockman.sh && list_sessions')"
