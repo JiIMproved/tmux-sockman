@@ -35,6 +35,20 @@ function session_options_pane_title() {
   echo "sockman-session-${session_name}"
 }
 
+function session_primary_pane_title() {
+  local session_name=$1
+  if [[ -z "${session_name}" ]]; then
+    session_name="$(sockman_session)"
+  fi
+
+  if [[ -z "${session_name}" ]]; then
+    read -p "No session name found. Failed to generate session primary pane title. Press enter to continue."
+    return 1
+  fi
+
+  echo "sockman-primary-${session_name}"
+}
+
 function socket_options_pane_title() {
   socket_name=$1
   if [[ -z "${socket_name}" ]]; then
@@ -68,7 +82,7 @@ function socket_list() {
 function toggle_menu() {
   local pane_id=$(tmux list-panes -F "#{pane_title}" | grep "^sockman-.*" | xargs -I {} -n1 tmux list-panes -F "#{pane_id}" -f "#{==:#{pane_title},{}}" 2> /dev/null)
   if [[ -n "${pane_id}" ]]; then
-    tmux kill-pane -t "${pane_id}"
+    tmux kill-pane -t "${pane_id}" 2> /dev/null
     return 0
   fi
 
@@ -93,6 +107,7 @@ function open_session_window() {
   fi
 
   tmux new-window -Sn "${session_name}" 2> /dev/null
+  tmux select-pane -T "$(session_primary_pane_title ${session_name})" 2> /dev/null
   tmux set -w allow-rename off 2> /dev/null
   echo "$(tmux display-message -p '#{pane_id}')"
 }
