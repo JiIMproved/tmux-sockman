@@ -80,7 +80,7 @@ function socket_list() {
 }
 
 function toggle_menu() {
-  tmux list-windows > ~/stuff
+  tmux display-message -p '#W' > ~/stuff
   local pane_id=$(tmux list-panes -F "#{pane_title}" | grep "^sockman-.*" | xargs -I {} -n1 tmux list-panes -F "#{pane_id}" -f "#{==:#{pane_title},{}}" 2> /dev/null)
   if [[ -n "${pane_id}" ]]; then
     tmux kill-pane -t "${pane_id}" 2> /dev/null
