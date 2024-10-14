@@ -11,7 +11,11 @@ function session_list() {
 }
 
 function sockman_session() {
-  session_name=$(tmux display-message -p '#W')
+  local session_name=$1
+  if [[ -z "${session_name}" ]]; then
+    session_name=$(tmux display-message -p '#W')
+  fi
+
   if [[ "$(session_list)" =~ "(^|[[:space:]])${session_name}($|[[:space:]])" ]]; then
     echo "${session_name}"
   fi
@@ -62,8 +66,8 @@ function socket_list() {
 }
 
 function show_menu() {
-  local session_name=$(sockman_session)
-  tmux display-message -d 0 "session_name: ${session_name}"
+  local session_name=$(sockman_session $1)
+
   if [[ -z "${session_name}" ]]; then
     open_list_sessions_pane
   else
