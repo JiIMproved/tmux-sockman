@@ -17,3 +17,4 @@ function toggle_menu() {
     open_list_sockets_pane "${session_name}"
   fi
 }
+export -f toggle_menu

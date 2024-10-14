@@ -20,6 +20,7 @@ function open_list_sockets_pane() {
   tmux select-pane -T "${pane_name}" 2> /dev/null
   tmux set -w allow-rename off 2> /dev/null
 }
+export -f open_list_sockets_pane
 
 function open_list_sessions_pane() {
   local current_pane_id=$(tmux display-message -p '#{pane_id}')
@@ -38,6 +39,7 @@ function open_list_sessions_pane() {
   tmux select-pane -T "${pane_name}" 2> /dev/null
   tmux set -w allow-rename off 2> /dev/null
 }
+export -f open_list_sessions_pane
 
 # function open_list_socket_options_pane() {
 #   local socket_name=$1
@@ -114,6 +116,7 @@ function list_socket_options() {
     "$rename_opt" \
     "$close_menu_opt")"
 }
+export -f list_socket_options
 
 function list_sockets() {
   local session_name=$1
@@ -137,6 +140,7 @@ function list_sockets() {
     list_socket_options "${option}"
   fi
 }
+export -f list_sockets
 
 function list_sessions() {
   gum style --foreground 212 --bold --height 2 Sockman
@@ -154,6 +158,7 @@ function list_sessions() {
     list_sockets "${option}"
   fi
 }
+export -f list_sessions
 
 function open_session_window() {
   local session_name=$1
@@ -171,6 +176,4 @@ function open_session_window() {
   tmux setw -g allow-rename off 2> /dev/null
   echo "$(tmux display-message -p '#{pane_id}')"
 }
-
-export -f open_list_sessions_pane
-export -f open_list_sockets_pane
+export -f open_session_window
