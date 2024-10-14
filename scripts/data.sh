@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 
-export CURRENT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-export PATH="/usr/local/bin:$PATH:/usr/sbin"
-
 export LIST_SESSION_PANE_TITLE="sockman-list-session"
 
 function session_list() {

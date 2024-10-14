@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 
-source ./data.sh
-source ./panes.sh
+export CURRENT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+export PATH="/usr/local/bin:$PATH:/usr/sbin"
+
+source ${CURRENT_DIR}/data.sh
+source ${CURRENT_DIR}/panes.sh
 
 function toggle_menu() {
   local pane_id=$(tmux list-panes -F "#{pane_title}" | grep "^sockman-.*" | grep -v "^sockman-primary-.*" | xargs -I {} -n1 tmux list-panes -F "#{pane_id}" -f "#{==:#{pane_title},{}}" 2> /dev/null)

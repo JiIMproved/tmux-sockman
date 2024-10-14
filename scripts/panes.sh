@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 
-source ./data.sh
+export CURRENT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+export PATH="/usr/local/bin:$PATH:/usr/sbin"
+
+source ${CURRENT_DIR}/data.sh
 
 function open_list_sockets_pane() {
   session_name=$1
