@@ -166,21 +166,19 @@ function open_list_sockets_pane() {
   session_name=$1
   local pane_name="$(session_options_pane_title ${session_name})"
   local pane_id=$(tmux list-panes -aF "#{pane_id}" -f "#{==:#{pane_title},"${pane_name}"}")
-  tmux display-message -d 0 "pane_id: ${pane_id}"
+  local session_pane_id="$(open_session_window ${session_name})"
 
   if [[ -n "${pane_id}" ]]; then
     tmux select-pane -t "${pane_id}"
   else
-    local winid="$(tmux new-window -P bash -c 'source '"${CURRENT_DIR}"'/sockman.sh && list_sockets '"${session_name}"'')"
-
-    local session_pane_id="$(open_session_window ${session_name})"
-
-    tmux join-pane -hb -l 40 -t "${session_pane_id}" -s "${winid}"
-
-    # rename current pane so it can be found next time
-    tmux select-pane -T "${pane_name}"
-    tmux set -w allow-rename off
+    pane_id="$(tmux new-window -P bash -c 'source '"${CURRENT_DIR}"'/sockman.sh && list_sockets '"${session_name}"'')"
   fi
+
+  tmux join-pane -hb -l 40 -t "${session_pane_id}" -s "${pane_id}"
+
+  # rename current pane so it can be found next time
+  tmux select-pane -T "${pane_name}"
+  tmux set -w allow-rename off
 
   echo "${pane_name}"
 }
@@ -203,7 +201,6 @@ function open_list_sessions_pane() {
 
   local pane_name="${LIST_SESSION_PANE_TITLE}"
   local pane_id=$(tmux list-panes -aF "#{pane_id}" -f "#{==:#{pane_title},"${pane_name}"}")
-  tmux display-message -d 0 "pane_id: ${pane_id}"
 
   if [[ -z "${pane_id}" ]]; then
     pane_id="$(tmux new-window -P bash -c 'source '"${CURRENT_DIR}"'/sockman.sh && list_sessions')"
