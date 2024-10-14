@@ -62,15 +62,11 @@ function socket_list() {
 }
 
 function show_menu() {
-  local socket_name=$1
-  local session_name="$(sockman_session)"
-
-  read -p "Session name: ${session_name}"
+  session_name="$(sockman_session)"
+  read -p "Press ${session_name}"
 
   if [[ -z "${session_name}" ]]; then
     open_list_sessions_pane
-  elif [[ -n "${socket_name}" ]]; then
-    open_list_socket_options_pane "${socket_name}"
   else
     open_list_sockets_pane "${session_name}"
   fi
