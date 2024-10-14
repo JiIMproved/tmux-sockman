@@ -168,18 +168,21 @@ function open_list_sockets_pane() {
   local session_name=$1
   local pane_name="$(session_options_pane_title ${session_name})"
   local pane_found="$(tmux select-pane -t "${pane_name}" && echo true)"
-  sleep 2
 
   if [[ -z "${pane_found}" ]]; then
-    # local winid="$(tmux new-window -P bash -c 'source '"${CURRENT_DIR}"'/sockman.sh && list_sockets')"
-    local winid="$(tmux new-window)"
+    echo listing sockets...
+    local winid="$(tmux new-window -P bash -c 'source '"${CURRENT_DIR}"'/sockman.sh && list_sockets "${session_name}"')"
     sleep 2
 
+    echo opening session window
     local session_pane_id="$(open_session_window ${session_name})"
     sleep 2
 
+    echo joining pane
     tmux join-pane -hb -l 40 -t "${session_pane_id}" -s "${winid}"
+    sleep 2
 
+    echo renaming pane
     # rename current pane so it can be found next time
     tmux select-pane -T "${pane_name}"
     tmux set -w allow-rename off
@@ -191,6 +194,7 @@ function open_list_sockets_pane() {
 
 function list_sockets() {
   local session_name=$1
+  read -p "We did it. ${session_name}"
 }
 
 function open_list_sessions_pane() {
