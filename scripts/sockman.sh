@@ -57,7 +57,7 @@ function socket_list() {
     return 1
   fi
 
-  local sockets=( $(ls -d ~/.ssh/sockman/${session_name}/config.d/*/ | xargs -n1 basename) )
+  local sockets=( $(ls ~/.ssh/sockman/${session_name}/config.d/* | xargs -n1 basename) )
   echo "${sockets}"
 }
 
