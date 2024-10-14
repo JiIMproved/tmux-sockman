@@ -16,8 +16,8 @@ function sockman_session() {
     session_name=$(tmux display-message -p '#W')
   fi
 
-  echo "${session_name}" > ~/stuff3
   if [[ "$(session_list)" =~ "(^|[[:space:]])${session_name}($|[[:space:]])" ]]; then
+    echo "${session_name}" > ~/stuff4
     echo "${session_name}"
   fi
 }
