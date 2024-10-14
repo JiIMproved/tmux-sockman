@@ -7,7 +7,7 @@ export LIST_SESSION_PANE_TITLE="sockman-list-session"
 
 function session_list() {
   session_list_arr=( $(ls -d ~/.ssh/sockman/*/ | xargs -n1 basename) )
-  echo "${session_list_arr}"
+  echo "${session_list_arr[@]}"
 }
 
 function sockman_session() {
@@ -58,7 +58,7 @@ function socket_list() {
   fi
 
   local sockets=( $(ls ~/.ssh/sockman/${session_name}/config.d/* | xargs -n1 basename) )
-  echo "${sockets}"
+  echo "${sockets[@]}"
 }
 
 function show_menu() {
