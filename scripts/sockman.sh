@@ -22,7 +22,7 @@ function session_options_pane_title() {
   if [[ -z "${session_name}" ]]; then
     read -p "$(sockman_session). Press enter."
     read -p "No session name found. Failed to generate session options pane title. Press enter to continue."
-    return 1
+    # return 1
   fi
   echo "sockman-session-${session_name}"
 }
