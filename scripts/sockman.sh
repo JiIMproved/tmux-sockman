@@ -16,9 +16,9 @@ function sockman_session() {
     session_name=$(tmux display-message -p '#W')
   fi
 
-  if [[ "$(session_list)" =~ "(^|[[:space:]])${session_name}($|[[:space:]])" ]]; then
+  # if [[ "$(session_list)" =~ "(^|[[:space:]])${session_name}($|[[:space:]])" ]]; then
     echo "${session_name}"
-  fi
+  # fi
 }
 
 function session_options_pane_title() {
