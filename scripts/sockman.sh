@@ -166,10 +166,11 @@ function open_list_sockets_pane() {
   session_name=$1
   local pane_name="$(session_options_pane_title ${session_name})"
   local pane_id="$(tmux list-panes -aF \"#{pane_id}\" -f \"#{==:#{pane_title},${pane_name}}\")"
+  echo $pane_id
   local pane_found="$(tmux select-pane -t "${pane_id}" && echo true)"
 
   if [[ -z "${pane_found}" ]]; then
-    local winid="$(tmux new-window -P bash -c 'source '"${CURRENT_DIR}"'/sockman.sh && list_sockets')"
+    local winid="$(tmux new-window -P bash -c 'source '"${CURRENT_DIR}"'/sockman.sh && list_sockets '"${session_name}"'')"
 
     local session_pane_id="$(open_session_window ${session_name})"
 
