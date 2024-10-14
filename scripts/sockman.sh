@@ -16,6 +16,7 @@ function sockman_session() {
     echo "${session_name}"
   fi
 }
+
 export SESSION_NAME="$(sockman_session)"
 
 function session_options_pane_title() {
@@ -165,20 +166,20 @@ function open_session_window() {
 function open_list_sockets_pane() {
   session_name=$1
   local pane_name="$(session_options_pane_title ${session_name})"
-  local pane_id=$(tmux list-panes -aF "#{pane_id}" -f "#{==:#{pane_title},"${pane_name}"}")
+  local pane_id=$(tmux list-panes -aF "#{pane_id}" -f "#{==:#{pane_title},"${pane_name}"}" 2> /dev/null)
   local session_pane_id="$(open_session_window ${session_name})"
 
   if [[ -n "${pane_id}" ]]; then
-    tmux select-pane -t "${pane_id}"
+    tmux select-pane -t "${pane_id}" 2> /dev/null
   else
-    pane_id="$(tmux new-window -P bash -c 'source '"${CURRENT_DIR}"'/sockman.sh && list_sockets '"${session_name}"'')"
+    pane_id="$(tmux new-window -P bash -c 'source '"${CURRENT_DIR}"'/sockman.sh && list_sockets '"${session_name}"'' 2> /dev/null)"
   fi
 
-  tmux join-pane -hb -l 40 -t "${session_pane_id}" -s "${pane_id}"
+  tmux join-pane -hb -l 40 -t "${session_pane_id}" -s "${pane_id}" 2> /dev/null
 
   # rename current pane so it can be found next time
-  tmux select-pane -T "${pane_name}"
-  tmux set -w allow-rename off
+  tmux select-pane -T "${pane_name}" 2> /dev/null
+  tmux set -w allow-rename off 2> /dev/null
 
   echo "${pane_name}"
 }
@@ -200,18 +201,18 @@ function open_list_sessions_pane() {
   local current_pane_id=$(tmux display-message -p '#{pane_id}')
 
   local pane_name="${LIST_SESSION_PANE_TITLE}"
-  local pane_id=$(tmux list-panes -aF "#{pane_id}" -f "#{==:#{pane_title},"${pane_name}"}")
+  local pane_id=$(tmux list-panes -aF "#{pane_id}" -f "#{==:#{pane_title},"${pane_name}"}" 2> /dev/null)
 
   if [[ -z "${pane_id}" ]]; then
     pane_id="$(tmux new-window -P bash -c 'source '"${CURRENT_DIR}"'/sockman.sh && list_sessions')"
   else
     tmux respawn-pane -k -t "${pane_id}" bash -c 'source '"${CURRENT_DIR}"'/sockman.sh && list_sessions'
   fi
-  tmux join-pane -hb -l 40 -t "${current_pane_id}" -s "${pane_id}"
+  tmux join-pane -hb -l 40 -t "${current_pane_id}" -s "${pane_id}" 2> /dev/null
 
   # rename current pane so it can be found next time
-  tmux select-pane -T "${pane_name}"
-  tmux set -w allow-rename off
+  tmux select-pane -T "${pane_name}" 2> /dev/null
+  tmux set -w allow-rename off 2> /dev/null
 }
 
 function list_sessions() {
@@ -227,9 +228,9 @@ function list_sessions() {
   elif [[ $option == $close_menu_opt ]]; then
     echo REPLACE
   else
-    local current_pane_id=$(tmux display-message -p '#{pane_id}')
-    local pane_id="$(open_session_window ${option})"
-    tmux join-pane -hb -l 40 -t "${pane_id}" -s "${current_pane_id}"
+    # local current_pane_id=$(tmux display-message -p '#{pane_id}')
+    # local pane_id="$(open_session_window ${option})"
+    # tmux join-pane -hb -l 40 -t "${pane_id}" -s "${current_pane_id}"
     open_list_sockets_pane "${option}"
   fi
 }
