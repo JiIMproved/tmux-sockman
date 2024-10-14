@@ -171,3 +171,6 @@ function open_session_window() {
   tmux setw -g allow-rename off 2> /dev/null
   echo "$(tmux display-message -p '#{pane_id}')"
 }
+
+export -f open_list_sessions_pane
+export -f open_list_sockets_pane

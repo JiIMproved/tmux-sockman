@@ -11,8 +11,6 @@ function toggle_menu() {
   fi
 
   local session_name=$(sockman_session)
-  echo $session_name > ~/stuff
-
   if [[ -z "${session_name}" ]]; then
     open_list_sessions_pane
   else
