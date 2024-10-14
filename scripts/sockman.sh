@@ -8,6 +8,7 @@ export LIST_SESSION_PANE_TITLE="sockman-list-session"
 function session_options_pane_title() {
   session_name="$(sockman_session)"
   if [[ -z "${session_name}" ]]; then
+    read -p "$(tmux display-message -p '#W'). Press enter."
     read -p "No session name found. Failed to generate session options pane title. Press enter to continue."
     return 1
   fi
