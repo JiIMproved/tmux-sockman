@@ -7,9 +7,8 @@ export LIST_SESSION_PANE_TITLE="sockman-list-session"
 
 function session_options_pane_title() {
   local session_name="$(sockman_session)"
-  read -p "$(sockman_session). Press enter."
   if [[ -z "${session_name}" ]]; then
-    read -p "${session_name}. Press enter."
+    read -p "$(sockman_session). Press enter."
     read -p "No session name found. Failed to generate session options pane title. Press enter to continue."
     return 1
   fi
@@ -221,6 +220,7 @@ function list_sessions() {
     local current_pane_id=$(tmux display-message -p '#{pane_id}')
     local pane_id="$(open_session_window ${option})"
     tmux join-pane -hb -l 40 -t "${pane_id}" -s "${current_pane_id}"
+    sleep 1
     open_list_sockets_pane
   fi
 }
