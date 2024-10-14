@@ -165,10 +165,8 @@ function open_session_window() {
 function open_list_sockets_pane() {
   session_name=$1
   local pane_name="$(session_options_pane_title ${session_name})"
-  tmux display-message ${pane_name}
   local pane_id="$(tmux list-panes -aF \"#{pane_id}\" -f \"#{==:#{pane_title},${pane_name}}\")"
-  sleep 5
-  local pane_found="$(tmux select-pane -t "${pane_id}" && echo true)"
+  # local pane_found="$(tmux select-pane -t "${pane_id}" && echo true)"
 
   if [[ -z "${pane_found}" ]]; then
     local winid="$(tmux new-window -P bash -c 'source '"${CURRENT_DIR}"'/sockman.sh && list_sockets '"${session_name}"'')"
@@ -202,7 +200,6 @@ function open_list_sessions_pane() {
   local current_pane_id=$(tmux display-message -p '#{pane_id}')
 
   local pane_name="${LIST_SESSION_PANE_TITLE}"
-  tmux display-message ${pane_name}
   local pane_id="$(tmux list-panes -aF \"#{pane_id}\" -f \"#{==:#{pane_title},${pane_name}}\")"
 
   if [[ -z "${pane_id}" ]]; then
