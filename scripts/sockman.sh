@@ -203,9 +203,9 @@ function open_list_sessions_pane() {
   local pane_id="$(tmux list-panes -aF \"#{pane_id}\" -f \"#{==:#{pane_title},${pane_name}}\")"
 
   if [[ -z "${pane_id}" ]]; then
-    pane_id="$(tmux new-window -P bash -c 'source '"${CURRENT_DIR}"'/sockman.sh && list_sessions')"
+    pane_id="$(tmux new-window -P bash -c 'source '"${CURRENT_DIR}"'/sockman.sh && list_sessions || sleep 5')"
   else
-    tmux respawn-pane -k -t "${pane_id}" bash -c 'source '"${CURRENT_DIR}"'/sockman.sh && list_sessions'
+    tmux respawn-pane -k -t "${pane_id}" bash -c 'source '"${CURRENT_DIR}"'/sockman.sh && list_sessions || sleep 5'
   fi
   tmux join-pane -hb -l 40 -t "${current_pane_id}" -s "${pane_id}"
 
