@@ -203,16 +203,15 @@ function open_list_sessions_pane() {
   local pane_id="$(tmux list-panes -aF \"#{pane_id}\" -f \"#{==:#{pane_title},${pane_name}}\")"
 
   if [[ -z "${pane_id}" ]]; then
-    pane_id="$(tmux new-window -P bash -c 'source '"${CURRENT_DIR}"'/sockman.sh && list_sessions || sleep 5')"
+    pane_id="$(tmux new-window -P bash -c 'source '"${CURRENT_DIR}"'/sockman.sh && list_sessions')"
   else
-    tmux respawn-pane -k -t "${pane_id}" bash -c 'source '"${CURRENT_DIR}"'/sockman.sh && list_sessions || sleep 5'
+    tmux respawn-pane -k -t "${pane_id}" bash -c 'source '"${CURRENT_DIR}"'/sockman.sh && list_sessions'
   fi
   tmux join-pane -hb -l 40 -t "${current_pane_id}" -s "${pane_id}"
 
   # rename current pane so it can be found next time
   tmux select-pane -T "${pane_name}"
   tmux set -w allow-rename off
-  sleep 5
 }
 
 function list_sessions() {
@@ -220,6 +219,7 @@ function list_sessions() {
 
   new_session_opt="New session"
   close_menu_opt="Close menu"
+  sleep 5
 
   option="$(gum choose "$(session_list)" "$new_session_opt" "$close_menu_opt")"
 
