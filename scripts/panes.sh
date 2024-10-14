@@ -132,7 +132,6 @@ function open_session_window() {
     session_name="$(sockman_session)"
   fi
 
-  sleep 5
   if [[ -z "${session_name}" ]]; then
     read -p "No session name found. Failed to create or select session window. Press enter to continue."
     return 1
