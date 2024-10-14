@@ -63,7 +63,7 @@ function socket_list() {
 
 function show_menu() {
   local session_name=$(sockman_session)
-  tmux display-message -d 0 ${session_name}
+  tmux display-message -d 0 "session_name: ${session_name}"
   if [[ -z "${session_name}" ]]; then
     open_list_sessions_pane
   else
