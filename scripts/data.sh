@@ -81,3 +81,18 @@ function socket_list() {
   echo "${sockets[@]}"
 }
 export -f socket_list
+
+function socket_path() {
+  socket_name=$1
+  if [[ -z "${socket_name}" ]]; then
+    read -p "No socket selected. Failed to get socket path without socket name. Press enter to continue."
+    return 1
+  fi
+
+  local session_name="$(sockman_session)"
+  local socket_path="~/.ssh/sockman/${session_name}/${socket_name}/socket"
+  if [[ -S "${socket_path}" ]]; then
+    echo "${socket_path}"
+  fi
+}
+export -f socket_path

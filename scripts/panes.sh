@@ -44,43 +44,6 @@ function open_list_sessions_pane() {
 }
 export -f open_list_sessions_pane
 
-# function open_list_socket_options_pane() {
-#   local socket_name=$1
-#   if [[ -z "${socket_name}" ]]; then
-#     read -p "No socket selected. Failed to create or select pane for socket options. Press enter to continue."
-#     return 1
-#   fi
-#
-#   local pane_name="$(socket_options_pane_title ${socket_name})"
-#   local pane_found="$(tmux select-pane -t "${pane_name}" && echo true)"
-#
-#   if [[ -z "${pane_found}" ]]; then
-#     local winid="$(tmux new-window -P bash -c 'source '"${CURRENT_DIR}"'/panes.sh && list_socket_options '"${socket_name}")"
-#
-#     local session_pane_id="$(open_session_window)"
-#
-#     tmux join-pane -hb -l 40 -t "${session_pane_id}" -s "${winid}"
-#
-#     # rename current pane so it can be found next time
-#     tmux select-pane -T "${pane_name}"
-#     tmux set -w allow-rename off
-#   fi
-# }
-
-# function socket_path() {
-#   socket_name=$1
-#   if [[ -z "${socket_name}" ]]; then
-#     read -p "No socket selected. Failed to get socket path without socket name. Press enter to continue."
-#     return 1
-#   fi
-#
-#   local session_name="$(sockman_session)"
-#   local socket_path="~/.ssh/sockman/${session_name}/${socket_name}/socket"
-#   if [[ -S "${socket_path}" ]]; then
-#     echo "${socket_path}"
-#   fi
-# }
-
 function list_socket_options() {
   socket_name=$1
   if [[ -z "${socket_name}" ]]; then
@@ -180,3 +143,34 @@ function open_session_window() {
   echo "$(tmux display-message -p '#{pane_id}')"
 }
 export -f open_session_window
+
+function remove_sockman_sidebar() {
+  local pane_id=$(tmux list-panes -F "#{pane_title}" | grep "^sockman-.*" | grep -v "^sockman-primary-.*" | xargs -I {} -n1 tmux list-panes -F "#{pane_id}" -f "#{==:#{pane_title},{}}" 2> /dev/null)
+  if [[ -n "${pane_id}" ]]; then
+    tmux kill-pane -t "${pane_id}" 2> /dev/null
+    echo "${pane_id}"
+  fi
+}
+
+function open_list_socket_options_pane() {
+  local socket_name=$1
+  if [[ -z "${socket_name}" ]]; then
+    read -p "No socket selected. Failed to create or select pane for socket options. Press enter to continue."
+    return 1
+  fi
+
+  local pane_name="$(socket_options_pane_title ${socket_name})"
+  local pane_found="$(tmux select-pane -t "${pane_name}" && echo true)"
+
+  if [[ -z "${pane_found}" ]]; then
+    local winid="$(tmux new-window -P bash -c 'source '"${CURRENT_DIR}"'/panes.sh && list_socket_options '"${socket_name}")"
+
+    local session_pane_id="$(open_session_window)"
+
+    tmux join-pane -hb -l 40 -t "${session_pane_id}" -s "${winid}"
+
+    # rename current pane so it can be found next time
+    tmux select-pane -T "${pane_name}"
+    tmux set -w allow-rename off
+  fi
+}
