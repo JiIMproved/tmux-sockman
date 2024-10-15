@@ -26,21 +26,7 @@ function open_list_sockets_pane() {
 export -f open_list_sockets_pane
 
 function open_list_sessions_pane() {
-  local current_pane_id=$(tmux display-message -p '#{pane_id}')
-
-  local pane_name="${LIST_SESSION_PANE_TITLE}"
-  local pane_id=$(tmux list-panes -aF "#{pane_id}" -f "#{==:#{pane_title},"${pane_name}"}" 2> /dev/null)
-
-  if [[ -z "${pane_id}" ]]; then
-    pane_id="$(tmux new-window -P bash -c 'source '"${CURRENT_DIR}"'/panes.sh && list_sessions' 2> /dev/null)"
-  else
-    tmux respawn-pane -k -t "${pane_id}" bash -c 'source '"${CURRENT_DIR}"'/panes.sh && list_sessions' 2> /dev/null
-  fi
-  tmux join-pane -hb -l 40 -t "${current_pane_id}" -s "${pane_id}" 2> /dev/null
-
-  # rename current pane so it can be found next time
-  tmux select-pane -T "${pane_name}" 2> /dev/null
-  tmux set -w allow-rename off 2> /dev/null
+  tmux display-popup -Eb rounded -T Sockman -x 1000 -y 1000 -h 10 -w 41 bash -c 'source '"${CURRENT_DIR}"'/panes.sh && list_sessions' 2> /dev/null
 }
 export -f open_list_sessions_pane
 
