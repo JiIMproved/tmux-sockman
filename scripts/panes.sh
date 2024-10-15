@@ -124,7 +124,6 @@ function open_session_window() {
   tmux new-window -e DISABLE_AUTO_TITLE=true -Sn "${session_name}" 2> /dev/null
   tmux select-pane -T "$(session_primary_pane_title ${session_name})" 2> /dev/null
   tmux setw -g allow-rename off 2> /dev/null
-  echo "$(tmux display-message -p '#{pane_id}')"
 }
 export -f open_session_window
 
