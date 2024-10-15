@@ -98,6 +98,7 @@ export -f list_socket_options
 function list_sockets() {
   local session_name=$1
 
+  clear
   gum style --foreground 212 --bold --height 2 Sockman
 
   local new_socket_opt="New Socket"
@@ -120,6 +121,7 @@ function list_sockets() {
 export -f list_sockets
 
 function list_sessions() {
+  clear
   gum style --foreground 212 --bold --height 2 Sockman
 
   new_session_opt="New session"
