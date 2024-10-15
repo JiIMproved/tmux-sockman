@@ -73,7 +73,7 @@ function list_socket_options() {
   close_menu_opt="Close Menu"
 
   option="$(gum choose \
-    --header="Action:"
+    --header="Action:" \
     "$open_socket_opt" \
     "$add_jump_opt" \
     "$close_socket_opt" \
