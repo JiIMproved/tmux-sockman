@@ -10,12 +10,12 @@ function open_list_sockets_pane() {
 
   open_session_window ${session_name}
 
-  tmux display-popup -Eb rounded -T Sockman -x 1000 -y 1000 -h 10 -w 41 bash -c 'source '"${CURRENT_DIR}"'/panes.sh && list_sockets '"${session_name}"'' 2> /dev/null
+  tmux display-popup -Eb rounded -T Sockman -x 1000 -y 1000 -h 7 -w 41 bash -c 'source '"${CURRENT_DIR}"'/panes.sh && list_sockets '"${session_name}"'' 2> /dev/null
 }
 export -f open_list_sockets_pane
 
 function open_list_sessions_pane() {
-  tmux display-popup -Eb rounded -T Sockman -x 1000 -y 1000 -h 10 -w 41 bash -c 'source '"${CURRENT_DIR}"'/panes.sh && list_sessions' 2> /dev/null
+  tmux display-popup -Eb rounded -T Sockman -x 1000 -y 1000 -h 7 -w 41 bash -c 'source '"${CURRENT_DIR}"'/panes.sh && list_sessions' 2> /dev/null
 }
 export -f open_list_sessions_pane
 
