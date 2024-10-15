@@ -10,12 +10,12 @@ function open_list_sockets_pane() {
 
   open_session_window ${session_name}
 
-  tmux display-popup -Eb rounded -T Sockman -x 1000 -y 1000 -h 7 -w 41 bash -c 'source '"${CURRENT_DIR}"'/panes.sh && list_sockets '"${session_name}"'' 2> /dev/null
+  tmux display-popup -Eb rounded -T Sockman -x 1000 -y 1000 -h 10 -w 41 bash -c 'source '"${CURRENT_DIR}"'/panes.sh && list_sockets '"${session_name}"'' 2> /dev/null
 }
 export -f open_list_sockets_pane
 
 function open_list_sessions_pane() {
-  tmux display-popup -Eb rounded -T Sockman -x 1000 -y 1000 -h 7 -w 41 bash -c 'source '"${CURRENT_DIR}"'/panes.sh && list_sessions' 2> /dev/null
+  tmux display-popup -Eb rounded -T Sockman -x 1000 -y 1000 -h 10 -w 41 bash -c 'source '"${CURRENT_DIR}"'/panes.sh && list_sessions' 2> /dev/null
 }
 export -f open_list_sessions_pane
 
@@ -74,14 +74,12 @@ function list_sockets() {
   local session_name=$1
 
   clear
-  gum style --foreground 212 --bold --height 2 Sockman
-
   local new_socket_opt="New Socket"
   local switch_session_opt="Switch Session"
   local close_menu_opt="Close menu"
   local sockets="$(socket_list ${session_name})"
 
-  option="$(gum choose ${sockets} "${new_socket_opt}" "${switch_session_opt}" "${close_menu_opt}")"
+  option="$(gum choose --height 7 ${sockets} "${new_socket_opt}" "${switch_session_opt}" "${close_menu_opt}")"
 
   if [[ $option == $new_socket_opt ]]; then
     echo REPLACE
