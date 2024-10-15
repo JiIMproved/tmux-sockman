@@ -7,21 +7,9 @@ source ${CURRENT_DIR}/data.sh
 
 function open_list_sockets_pane() {
   session_name=$1
-  local pane_name="$(session_options_pane_title ${session_name})"
-  local pane_id=$(tmux list-panes -aF "#{pane_id}" -f "#{==:#{pane_title},"${pane_name}"}" 2> /dev/null)
-  local session_pane_id="$(open_session_window ${session_name})"
+  open_session_window ${session_name}
 
-  if [[ -n "${pane_id}" ]]; then
-    tmux select-pane -t "${pane_id}" 2> /dev/null
-  else
-    pane_id="$(tmux new-window -P bash -c 'source '"${CURRENT_DIR}"'/panes.sh && list_sockets '"${session_name}"'' 2> /dev/null)"
-  fi
-
-  tmux join-pane -hb -l 40 -t "${session_pane_id}" -s "${pane_id}" 2> /dev/null
-
-  # rename current pane so it can be found next time
-  tmux select-pane -T "${pane_name}" 2> /dev/null
-  tmux set -w allow-rename off 2> /dev/null
+  tmux display-popup -Eb rounded -T Sockman -x 1000 -y 1000 -h 10 -w 41 bash -c 'source '"${CURRENT_DIR}"'/panes.sh && list_sockets '"${session_name}"'' 2> /dev/null
 }
 export -f open_list_sockets_pane
 
@@ -108,12 +96,10 @@ export -f list_sockets
 
 function list_sessions() {
   clear
-  gum style --foreground 212 --bold --height 2 Sockman
-
   new_session_opt="New session"
   close_menu_opt="Close menu"
 
-  option="$(gum choose "$(session_list)" "$new_session_opt" "$close_menu_opt")"
+  option="$(gum choose --header="Select session:" "$(session_list)" "$new_session_opt" "$close_menu_opt")"
 
   if [[ $option == $new_session_opt ]]; then
     echo REPLACE
