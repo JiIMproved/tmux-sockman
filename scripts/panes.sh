@@ -61,6 +61,7 @@ function list_socket_options() {
   printf "socket: "
   gum style --foreground 212 --bold "${socket_name}"
 
+  back_opt="◀━ Back"
   open_socket_opt="Open Socket"
   add_jump_opt="Add Jump"
   close_socket_opt="Close Socket"
@@ -73,7 +74,8 @@ function list_socket_options() {
   close_menu_opt="Close Menu"
 
   option="$(gum choose \
-    --header="Action:" \
+    --header="action:" \
+    "$back_opt" \
     "$open_socket_opt" \
     "$add_jump_opt" \
     "$close_socket_opt" \
