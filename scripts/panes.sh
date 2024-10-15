@@ -8,8 +8,6 @@ source ${CURRENT_DIR}/data.sh
 function open_list_sockets_pane() {
   session_name=$1
 
-  tmux display-popup -C
-
   open_session_window ${session_name}
 
   tmux display-popup -Eb rounded -T Sockman -x 1000 -y 1000 -h 10 -w 41 bash -c 'source '"${CURRENT_DIR}"'/panes.sh && list_sockets '"${session_name}"'' 2> /dev/null
