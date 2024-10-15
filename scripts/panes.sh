@@ -32,7 +32,6 @@ function list_socket_options() {
   fi
 
   clear
-  gum style --foreground 212 --bold --height 2 Sockman
   printf "socket: "
   gum style --foreground 212 --bold "${socket_name}"
 
@@ -50,6 +49,7 @@ function list_socket_options() {
 
   option="$(gum choose \
     --header="action:" \
+    --height=6 \
     "$back_opt" \
     "$open_socket_opt" \
     "$add_jump_opt" \
