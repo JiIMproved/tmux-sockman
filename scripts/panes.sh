@@ -86,6 +86,12 @@ function list_socket_options() {
     "$edit_info_opt" \
     "$rename_opt" \
     "$close_menu_opt")"
+
+  if [[ $option == $back_opt ]]; then
+    list_sockets "$(sockman_session)"
+  elif [[ $option == $close_menu_opt ]]; then
+    echo REPLACE
+  fi
 }
 export -f list_socket_options
 
