@@ -58,7 +58,8 @@ function list_socket_options() {
 
   clear
   gum style --foreground 212 --bold --height 2 Sockman
-  gum style --foreground 212 "socket: ${socket_name}"
+  printf "socket: "
+  gum style --foreground 212 --bold "${socket_name}"
 
   open_socket_opt="Open Socket"
   add_jump_opt="Add Jump"
